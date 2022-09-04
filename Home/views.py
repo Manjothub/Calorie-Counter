@@ -6,13 +6,13 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from .decorators import *
+# from .decorators import *
 from django.contrib.auth.models import Group
 from .filters import fooditemFilter
-# Create your views here.
+
 
 @login_required(login_url='login')
-@admin_only
+# @admin_only
 def home(request):
     breakfast=Category.objects.filter(name='breakfast')[0].fooditem_set.all()[:5]
     lunch=Category.objects.filter(name='lunch')[0].fooditem_set.all()[:5]
@@ -28,7 +28,7 @@ def home(request):
     return render(request,'user/main.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+# @allowed_users(allowed_roles=['admin'])
 def fooditem(request):
     breakfast=Category.objects.filter(name='breakfast')[0].fooditem_set.all()
     bcnt=breakfast.count()
@@ -50,7 +50,7 @@ def fooditem(request):
     return render(request,'user/fooditem.html',context)
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+# @allowed_users(allowed_roles=['admin'])
 def createfooditem(request):
     form = fooditemForm()
     if request.method == 'POST':
@@ -61,7 +61,7 @@ def createfooditem(request):
     context={'form':form}
     return render(request,'user/createfooditem.html',context)
 
-@unauthorized_user
+# @unauthorized_user
 def registerPage(request):
     form=createUserForm()
     if request.method=='POST':
@@ -78,7 +78,7 @@ def registerPage(request):
     context={'form':form}
     return render(request,'register/register.html',context)
 
-@unauthorized_user
+# @unauthorized_user
 def loginPage(request):
     if request.method=='POST':
         username=request.POST.get('username')
